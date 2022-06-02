@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar - Huellitas</title>
+    <link rel="stylesheet" href="../../assets/css/styleRegistro.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-login">
+        <form th:action="@{/mascota/cargar}" method="POST" id="form1" enctype="multipart/form-data">
+            <h1>Datos de la Mascota</h1>
+
+            <br>
+            <p th:if="${error != null}" th:text="${error}" style="color: red" ></p>
+
+            <div class="container">
+                <div class="form1">
+
+                    <div class="grupo">
+                        <h3 class="stiloh3">Sexo</h3>
+                        <label for=""></label>
+                        <select name="sexo" id="sexo" class="select">
+                            <option value="macho">Macho</option>
+                            <option value="hembra">Hembra</option>
+                        </select>
+                        <!-- <label for="">Sexo</label> -->
+                    </div>
+                    <div class="grupo">
+                        <h3 class="stiloh3">Edad</h3>
+                        <input type="number" name="edad" id="email" th:value="${edad}" required min="1" max="20"><span
+                            class="barra"></span>
+                        <label for="edad"></label>
+                    </div>
+                    <div class="grupo">
+                        <input type="text" name="raza" id="name" th:value="${raza}" required><span class="barra"></span>
+                        <label for="">Raza</label>
+                    </div>
+                    <div class="grupo">
+                        <h3 class="stiloh3">Tipo</h3>
+                        <label for=""></label>
+                        <select name="tipo" id="name" title="tipo" class="select">
+                            <option value="perro">Perro</option>
+                            <option value="gato">Gato</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="grupo">
+                        <h3 class="stiloh3">Seleccione provincia</h3>
+                        
+                        <select name="provincia" id="ciudad" class="select" data-provincias>
+                            <!-- <option value="Mendoza">Mendoza</option> --> 
+                        </select>
+                        <label for=""></label>
+                    </div>
+                </div>
+                <div class="form2">
+                    <div class="grupo">
+                        <h3 class="stiloh3">Subir foto</h3>
+                        <input type="file" name="archivo" id="name" required><span class="barra"></span>
+                        <label for=""></label>
+                    </div>
+                    <div class="grupo">
+                        <label for=""></label>
+                        <textarea name="observaciones" id="" cols="80" rows="20"
+                            placeholder="ingresar observacion" th:value="${observaciones}"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" name="idContacto" th:value="${idContacto}"/> 
+
+            <button type="submit">Aceptar</button>
+        </form>
+    </div>
+    <script src="main.js"></script>
+
+   
+    <script>
+  
+      const select = document.querySelector('[data-provincias]')
+  
+      const addStateToSelect = name => {
+        const optionHTML = `<option value=${name}>${name}</option>`
+        const option  = document.createElement('option')
+        option.innerHTML = optionHTML
+        select.appendChild(option)
+      }
+  
+      fetch(
+        "https://apis.datos.gob.ar/georef/api/provincias",
+      )
+        .then((response) => response.json())
+        .then(data => data.provincias.forEach(({ nombre }) => addStateToSelect(nombre)))
+        .catch(console.error);
+    </script>
+
+</body>
+
+</html>
